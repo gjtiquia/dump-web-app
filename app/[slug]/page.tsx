@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp, onSnapshot, orderBy, query } from "firebase/firestore";
 
 import DumpBox from "@/components/DumpBox";
 import { firestore } from "@/firebaseConfig";
@@ -10,12 +10,11 @@ interface AppParams {
     slug: string
 }
 
-async function Dump() {
-    const querySnapshot = await getDocs(collection(firestore, "dumps", "test-dump-id", "dumps"));
-
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data().text}`);
-    });
+async function DumpAsync(dumpID: string, dumpText: string) {
+    await addDoc(collection(firestore, "dumps", dumpID, "dumps"), {
+        text: dumpText,
+        createdAt: serverTimestamp()
+    })
 }
 
 interface DumpData {
@@ -24,20 +23,16 @@ interface DumpData {
 }
 
 export default function App({ params }: { params: AppParams }) {
-
+    const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
 
     useEffect(() => {
+        const collectionRef = query(collection(firestore, "dumps", params.slug, "dumps"), orderBy("createdAt", "asc"));
 
-        const unsubscribe = onSnapshot(collection(firestore, "dumps", params.slug, "dumps"), (querySnapshot) => {
-
-            console.log("onSnapshot!")
-
+        const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
             const updatedDumpArray: DumpData[] = [];
 
             querySnapshot.forEach((doc) => {
-                console.log(`${doc.id} => ${doc.data().text}`);
-
                 updatedDumpArray.push({
                     id: doc.id,
                     text: doc.data().text
@@ -45,7 +40,6 @@ export default function App({ params }: { params: AppParams }) {
             });
 
             setDumpArray(updatedDumpArray);
-
         });
 
         return () => {
@@ -71,13 +65,18 @@ export default function App({ params }: { params: AppParams }) {
 
             <section className="flex-grow-0">
                 <div className="flex flex-col items-center gap-3">
-                    <textarea className="w-11/12 max-w-prose resize-none h-28 p-4 rounded-lg">
-
-                    </textarea>
+                    <textarea
+                        className="w-11/12 max-w-prose resize-none h-28 p-4 rounded-lg"
+                        value={textValue}
+                        onChange={(e) => setTextValue(e.target.value)}
+                    />
 
                     <button
                         className="bg-cyan-600 text-slate-50 px-12 py-2 rounded-xl"
-                        onClick={() => Dump()}
+                        onClick={() => {
+                            DumpAsync(params.slug, textValue);
+                            setTextValue("");
+                        }}
                     >
                         Dump
                     </button>
