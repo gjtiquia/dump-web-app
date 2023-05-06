@@ -9,7 +9,7 @@ import { delayAsync } from "@/utils/delayAsync";
 async function CreateADumpAsync(router: AppRouterInstance, setIsLoading: Dispatch<SetStateAction<boolean>>) {
     setIsLoading(true);
 
-    const dumpID = "testDumpID";
+    const dumpID = "test-dump-id";
 
     console.log("Creating a dump called", dumpID);
 
