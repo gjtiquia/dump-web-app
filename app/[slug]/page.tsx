@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { addDoc, collection, serverTimestamp, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useParams } from 'next/navigation';
 
 import DumpBox from "@/components/DumpBox";
 import { firestore } from "@/firebaseConfig";
-
-interface AppParams {
-    slug: string
-}
 
 interface DumpData {
     id: string,
@@ -28,9 +25,13 @@ async function DumpAsync(dumpID: string, dumpText: string) {
 }
 
 
-export default function App({ params }: { params: AppParams }) {
+export default function App() {
     const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
+
+    // Client Components should use this hook and cannot read from params prop directly
+    // https://nextjs.org/docs/app/api-reference/functions/use-params
+    const params = useParams();
 
     useEffect(() => {
         const q = query(collection(firestore, "dumps", params.slug, "dumps"), orderBy("createdAt", "asc"));
