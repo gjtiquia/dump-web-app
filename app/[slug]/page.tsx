@@ -19,6 +19,8 @@ async function DumpAsync(dumpID: string, dumpText: string) {
     // No empty strings
     if (dumpText.length == 0) return;
 
+    console.log("dumping", JSON.stringify(dumpText));
+
     await addDoc(collection(firestore, "dumps", dumpID, "dumps"), {
         text: dumpText,
         createdAt: serverTimestamp()
@@ -73,7 +75,7 @@ export default function App({ params }: { params: AppParams }) {
 
             <section className="mb-5 flex-grow overflow-y-auto">
                 <div className="flex flex-col items-center">
-                    <div className="w-11/12 flex flex-col items-center gap-2">
+                    <div className="w-11/12 max-w-prose flex flex-col items-end gap-2">
                         {dumpArray && dumpArray.map((value) => <DumpBox key={value.id} dumpContents={value.text} />)}
                     </div>
                 </div>
