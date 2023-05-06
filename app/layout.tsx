@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import './globals.css'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import DumpBox from '@/components/DumpBox'
 
 export const metadata = {
   title: 'Dump - Dump anything.',
@@ -15,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className + " " + "min-h-screen grid grid-rows-[auto_1fr_auto] grid-cols-1"}>
-        <header className='bg-cyan-100'>
+    <html lang="en" className='h-full'>
+      <body className="max-h-screen h-full flex flex-col">
+        <header className='bg-cyan-100 flex-grow-0'>
           <nav className='flex items-center justify-between'>
             <Link href="/">
               <p className='font-bold p-2 text-slate-800'>
@@ -54,12 +52,13 @@ export default function RootLayout({
           </nav>
         </header>
 
-        <main className='bg-cyan-100'>
+        <main className='flex-grow overflow-y-auto bg-cyan-100'>
           {children}
         </main>
 
-        <footer className='bg-cyan-100 flex justify-end'>
-          <a className='p-2'>Github Link</a>
+        <footer className='bg-cyan-100 flex-grow-0 flex justify-end'>
+          {/* <a className='p-2'>Github Link</a> */}
+          <div className='h-3'></div>
         </footer>
       </body>
     </html>
