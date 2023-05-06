@@ -37,7 +37,8 @@ function AppScreen() {
     const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
 
-    const params = useParams();
+    // const params = useParams();
+    const params = { slug: "test" } //! temp workaround cuz hv error
 
     useEffect(() => {
         const q = query(collection(firestore, "dumps", params.slug, "dumps"), orderBy("createdAt", "asc"));
