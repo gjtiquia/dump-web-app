@@ -17,14 +17,41 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " " + "min-h-screen grid grid-rows-[auto_1fr_auto] grid-cols-1"}>
-        <header className='bg-gradient-to-b from-cyan-300 to-cyan-100'>
-          <Link href="/">
-            <div>
+        <header className='bg-cyan-100'>
+          <nav className='flex items-center justify-between'>
+            <Link href="/">
               <p className='font-bold p-2 text-slate-800'>
                 Dump
               </p>
-            </div>
-          </Link>
+            </Link>
+
+            <ul className='flex gap-2 mr-2'>
+              <li>
+                <Link href="/">
+                  <p className='text-slate-800 text-sm'>
+                    Home
+                  </p>
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/about">
+                  <p className='text-slate-800 text-sm'>
+                    About
+                  </p>
+                </Link>
+              </li>
+
+              <li>
+                <a>
+                  <p className='text-slate-800 text-sm'>
+                    GitHub
+                  </p>
+                </a>
+              </li>
+            </ul>
+
+          </nav>
         </header>
 
         <main className='bg-cyan-100'>
