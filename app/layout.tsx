@@ -41,7 +41,7 @@ export default function RootLayout({
               </li>
 
               <li>
-                <a>
+                <a target='_blank' href='https://github.com/gjtiquia/dump-web-app'>
                   <p className='text-slate-800 text-sm'>
                     GitHub
                   </p>
