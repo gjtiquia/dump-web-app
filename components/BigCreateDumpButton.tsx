@@ -3,17 +3,20 @@
 import { useRouter } from "next/navigation"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { Dispatch, SetStateAction, useState } from "react";
-import { delayAsync } from "@/utils/delayAsync";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { firestore } from "@/firebaseConfig";
 
 
 async function CreateADumpAsync(router: AppRouterInstance, setIsLoading: Dispatch<SetStateAction<boolean>>) {
     setIsLoading(true);
 
-    const dumpID = "test-dump-id";
+    const createdDoc = await addDoc(collection(firestore, "dumps"), {
+        createdAt: serverTimestamp()
+    })
 
+    const dumpID = createdDoc.id;
     console.log("Creating a dump called", dumpID);
 
-    await delayAsync(1000); // Mimic backend loading
     router.push(`/${dumpID}`)
 
     setIsLoading(false);
