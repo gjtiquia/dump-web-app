@@ -24,8 +24,16 @@ async function DumpAsync(dumpID: string, dumpText: string) {
     })
 }
 
+export default function Test() {
+    return (
+        <div>
+            <p>Hello World!</p>
+        </div>
+    )
+}
 
-export default function AppScreen() {
+// export default function AppScreen() {
+function AppScreen() {
     const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
 
