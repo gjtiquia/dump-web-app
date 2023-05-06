@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { addDoc, collection, serverTimestamp, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useParams } from "next/navigation";
 
@@ -38,6 +38,7 @@ export default function App() {
 
 // export default function AppScreen() {
 function AppScreen() {
+    const sectionReference = useRef<HTMLElement>(null);
     const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
 
@@ -85,7 +86,7 @@ function AppScreen() {
                 </button>
             </section>
 
-            <section className="mb-5 flex-grow overflow-y-auto">
+            <section ref={sectionReference} className="mb-5 flex-grow overflow-y-auto">
                 <div className="flex flex-col items-center">
                     <div className="w-11/12 max-w-prose flex flex-col items-end gap-2">
                         {dumpArray && dumpArray.map((value) => <DumpBox key={value.id} dumpContents={value.text} />)}
@@ -106,12 +107,13 @@ function AppScreen() {
                         onClick={() => {
                             DumpAsync(params.slug, textValue);
                             setTextValue("");
+                            sectionReference.current?.scrollTo(0, sectionReference.current.scrollHeight)
                         }}
                     >
                         Dump
                     </button>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 }
