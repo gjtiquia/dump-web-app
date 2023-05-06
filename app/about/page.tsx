@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <section className="h-full flex justify-center items-center">
+        <section className="min-h-[90vh] flex justify-center items-center">
             <div className="w-11/12 max-w-fit">
                 <h1 className="font-bold text-2xl mb-2">About Dump</h1>
 
