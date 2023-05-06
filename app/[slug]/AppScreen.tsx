@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { addDoc, collection, serverTimestamp, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useParams } from "next/navigation";
 
 import DumpBox from "@/components/DumpBox";
 import { firestore } from "@/firebaseConfig";
-
-interface ScreenParams {
-    slug: string
-}
 
 interface DumpData {
     id: string,
@@ -28,9 +25,11 @@ async function DumpAsync(dumpID: string, dumpText: string) {
 }
 
 
-export default function AppScreen({ params }: { params: ScreenParams }) {
+export default function AppScreen() {
     const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
+
+    const params = useParams();
 
     useEffect(() => {
         const q = query(collection(firestore, "dumps", params.slug, "dumps"), orderBy("createdAt", "asc"));

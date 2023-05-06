@@ -1,11 +1,7 @@
 import AppScreen from "./AppScreen";
 
-interface AppParams {
-    slug: string
-}
-
-export default function App({ params }: { params: AppParams }) {
+export default function App() {
     return (
-        <AppScreen params={params} />
+        <AppScreen />
     );
 }
