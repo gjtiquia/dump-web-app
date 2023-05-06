@@ -2,6 +2,8 @@ import AppScreen from "./AppScreen";
 
 export default function App() {
     return (
-        <AppScreen />
+        <div>
+            <p>JUST THE APP</p>
+        </div>
     );
 }
