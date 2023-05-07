@@ -19,7 +19,9 @@ async function CreateADumpAsync(router: AppRouterInstance, setIsLoading: Dispatc
 
     router.push(`/${dumpID}`)
 
-    setIsLoading(false);
+    // No need to set reset loading state as the page will change
+    // State will be reset anyways when rendered back into the home page
+    // setIsLoading(false);
 }
 
 export default function BigCreateDumpButton() {
@@ -30,6 +32,7 @@ export default function BigCreateDumpButton() {
         return (
             <button
                 className="bg-gray-500 text-slate-50 px-16 py-3 rounded-xl"
+                disabled={true}
             >
                 Creating a dump...
             </button>
