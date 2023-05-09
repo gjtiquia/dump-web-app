@@ -11,7 +11,7 @@ Share the link with others to use the same dump.
 
 The project is currently hosted at [dump.gjtiquia.com](https://dump.gjtiquia.com/)
 
-Built with [Next.js](https://nextjs.org/), bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Built with [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com/), bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Development
 
