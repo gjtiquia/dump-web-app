@@ -41,6 +41,7 @@ function AppScreen() {
     const sectionReference = useRef<HTMLElement>(null);
     const [textValue, setTextValue] = useState("");
     const [dumpArray, setDumpArray] = useState<DumpData[]>([])
+    const [isFirstSnapshot, setIsFirstSnapshot] = useState(true);
 
     const router = useRouter();
     const params = { slug: typeof (router.query.slug) == "string" ? router.query.slug : "error" }
@@ -65,7 +66,25 @@ function AppScreen() {
             unsubscribe();
         }
 
-    }, [params.slug])
+    }, [isFirstSnapshot, params.slug])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        if (isFirstSnapshot) {
+            scrollToBottom();
+            if (dumpArray.length != 0) setIsFirstSnapshot(false);
+        }
+    })
+
+    const scrollToBottom = () => {
+        sectionReference.current?.scrollTo(0, sectionReference.current.scrollHeight)
+    }
+
+    const onDumpButtonClicked = async () => {
+        setTextValue("");
+        await DumpAsync(params.slug, textValue);
+        scrollToBottom();
+    }
 
     return (
         <div className="min-h-[92vh] max-h-[92vh] flex flex-col">
@@ -100,15 +119,18 @@ function AppScreen() {
                         className="w-11/12 max-w-prose resize-none h-28 p-4 rounded-lg"
                         value={textValue}
                         onChange={(e) => setTextValue(e.target.value)}
+                        onKeyDown={(e) => {
+                            // Send only if pressed Enter and shift is NOT pressed
+                            if (e.key == "Enter" && !e.shiftKey) {
+                                e.preventDefault();
+                                onDumpButtonClicked();
+                            }
+                        }}
                     />
 
                     <button
                         className="bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 text-slate-50 px-12 py-2 rounded-xl"
-                        onClick={() => {
-                            DumpAsync(params.slug, textValue);
-                            setTextValue("");
-                            sectionReference.current?.scrollTo(0, sectionReference.current.scrollHeight)
-                        }}
+                        onClick={onDumpButtonClicked}
                     >
                         Dump
                     </button>
